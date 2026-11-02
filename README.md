@@ -20,7 +20,25 @@ f(x;\mu,\sigma)=\frac{\mu\sigma}{x}(-\log x)^{\sigma-1}
 \exp\left[-\mu(-\log x)^\sigma\right].
 $$
 
-La parametrización $(\mu,\sigma)$ se plantea siguiendo la convención de GAMLSS. La correspondencia con la familia WEI2 se encuentra pendiente de contrastación con su implementación y documentación.
+## Relación con WEI2 de GAMLSS
+
+La parametrización de WEI2 es:
+
+$$
+f_Y(y;\mu,\sigma)=\sigma\mu y^{\sigma-1}
+\exp(-\mu y^\sigma),\qquad y>0.
+$$
+
+Aplicando $Y=-\log(X)$ y el jacobiano $|dY/dX|=1/X$, se obtiene:
+
+$$
+f_X(x;\mu,\sigma)=\frac{1}{x}
+f_Y(-\log x;\mu,\sigma).
+$$
+
+Por tanto, la transformación conserva los parámetros: $\mu=\alpha$ y $\sigma=\beta$. El script de comparación algebraica y numérica está en `examples/transformacion_WEI2_UW.R`.
+
+**Importante:** WEI2 se utiliza aquí como distribución de referencia para comprobar la transformación. La familia Unit-Weibull que se desarrolle para GAMLSS debe tener sus propias funciones y derivadas, además de las validaciones correspondientes.
 
 ## Objetivo general
 
@@ -35,7 +53,7 @@ Implementar la distribución Unit-Weibull como una nueva familia en el paquete G
 - Desarrollar ejemplos reproducibles.
 - Realizar un estudio de simulación Monte Carlo y presentar sus resultados en un póster académico.
 
-## Estructura prevista
+## Estructura del proyecto
 
 ```text
 unit-weibull-gamlss/
@@ -48,21 +66,26 @@ unit-weibull-gamlss/
 │   └── utils.R
 ├── tests/
 ├── examples/
+│   └── transformacion_WEI2_UW.R
 ├── simulation/
 │   └── resultados/
 ├── docs/
 └── poster/
 ```
 
-Los cinco archivos R indicados corresponden a los entregables principales del proyecto. Las carpetas adicionales permitirán organizar pruebas, aplicaciones, simulaciones, documentación y el póster.
+Los cinco archivos R indicados corresponden a los entregables principales del proyecto. El script ubicado en `examples/` es un ejemplo auxiliar de transformación y contraste con WEI2; no reemplaza ninguno de los cinco entregables.
 
 ## Estado del proyecto
 
-**En desarrollo.** La parametrización, las derivadas y el comportamiento de la familia deben verificarse antes de considerar terminada la implementación.
+**En desarrollo.** La equivalencia algebraica con WEI2 está documentada. Falta ejecutar las pruebas en RStudio y validar la familia y sus derivadas dentro de GAMLSS.
 
 ## Referencia principal
 
 Mazucheli, J., Menezes, A. F. B. y Ghitany, M. E. (2018). *The Unit-Weibull Distribution and Associated Inference*. Journal of Applied Probability and Statistics.
+
+## Referencia de WEI2
+
+Documentación de `gamlss.dist`: [WEI2 — Weibull parameterization](https://rdrr.io/cran/gamlss.dist/man/WEI2.html).
 
 ## Tecnologías
 
