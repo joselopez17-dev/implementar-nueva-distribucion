@@ -1,4 +1,3 @@
-# ============================================================
 # Transformacion de WEI2 a Unit-Weibull (UW)
 # Proyecto: Implementacion de Unit-Weibull en GAMLSS
 #
@@ -18,49 +17,48 @@
 # Parametros:
 #       mu    = alpha
 #       sigma = beta
-# ============================================================
 
 # Instalar una sola vez si el paquete no esta instalado:
 # install.packages("gamlss.dist")
 
 library(gamlss.dist)
 
-# ------------------------------------------------------------
+
 # 1. Densidad Unit-Weibull obtenida a partir de WEI2
-# ------------------------------------------------------------
+
 
 dUW_desde_WEI2 <- function(x, mu, sigma, log = FALSE) {
-
+  
   # Validacion de parametros (se usan escalares en este ejemplo)
   if (length(mu) != 1L || !is.finite(mu) || mu <= 0) {
     stop("'mu' debe ser un unico valor positivo.")
   }
-
+  
   if (length(sigma) != 1L || !is.finite(sigma) || sigma <= 0) {
     stop("'sigma' debe ser un unico valor positivo.")
   }
-
+  
   # Inicializar la salida:
   # densidad = 0 fuera del soporte; log-densidad = -Inf.
   resultado <- rep(if (log) -Inf else 0, length(x))
   names(resultado) <- names(x)
-
+  
   # El soporte de Unit-Weibull es estrictamente 0 < x < 1.
   valido <- is.finite(x) & x > 0 & x < 1
-
+  
   if (any(valido)) {
-
+    
     # Sustitucion del argumento de WEI2:
     # y = -log(x)
     y <- -log(x[valido])
-
+    
     if (log) {
       # En escala logaritmica:
       # log(f_UW) = log(f_WEI2(-log(x))) - log(x)
       resultado[valido] <-
         dWEI2(y, mu = mu, sigma = sigma, log = TRUE) -
         log(x[valido])
-
+      
     } else {
       # En escala natural:
       # f_UW(x) = f_WEI2(-log(x)) * (1/x)
@@ -68,71 +66,71 @@ dUW_desde_WEI2 <- function(x, mu, sigma, log = FALSE) {
         dWEI2(y, mu = mu, sigma = sigma) / x[valido]
     }
   }
-
+  
   resultado
 }
 
 
-# ------------------------------------------------------------
+
 # 2. Densidad Unit-Weibull escrita directamente
-# ------------------------------------------------------------
+
 
 dUW_formula <- function(x, mu, sigma, log = FALSE) {
-
+  
   if (length(mu) != 1L || !is.finite(mu) || mu <= 0) {
     stop("'mu' debe ser un unico valor positivo.")
   }
-
+  
   if (length(sigma) != 1L || !is.finite(sigma) || sigma <= 0) {
     stop("'sigma' debe ser un unico valor positivo.")
   }
-
+  
   resultado <- rep(if (log) -Inf else 0, length(x))
   names(resultado) <- names(x)
-
+  
   valido <- is.finite(x) & x > 0 & x < 1
-
+  
   if (any(valido)) {
-
+    
     z <- -log(x[valido])
-
+    
     # Logaritmo de la densidad:
     log_densidad <- log(mu) +
       log(sigma) -
       log(x[valido]) +
       (sigma - 1) * log(z) -
       mu * z^sigma
-
+    
     if (log) {
       resultado[valido] <- log_densidad
     } else {
       resultado[valido] <- exp(log_densidad)
     }
   }
-
+  
   resultado
 }
 
 
-# ------------------------------------------------------------
+
 # 3. Funcion de distribucion acumulada usando WEI2
-# ------------------------------------------------------------
+
 
 pUW_desde_WEI2 <- function(q, mu, sigma) {
-
+  
   resultado <- rep(0, length(q))
   names(resultado) <- names(q)
-
+  
   # Para q <= 0, F(q) = 0.
   # Para q >= 1, F(q) = 1.
   resultado[!is.na(q) & q >= 1] <- 1
-
+  
   valido <- is.finite(q) & q > 0 & q < 1
-
+  
   if (any(valido)) {
-
+    
     y <- -log(q[valido])
-
+    
     # F_X(x) = P(Y >= -log(x))
     # Se usa la cola superior de WEI2.
     resultado[valido] <- pWEI2(
@@ -142,17 +140,17 @@ pUW_desde_WEI2 <- function(q, mu, sigma) {
       lower.tail = FALSE
     )
   }
-
+  
   resultado
 }
 
 
-# ------------------------------------------------------------
+
 # 4. Cuantiles y generacion aleatoria mediante WEI2
-# ------------------------------------------------------------
+
 
 qUW_desde_WEI2 <- function(p, mu, sigma) {
-
+  
   # Q_UW(p) = exp(-Q_WEI2(1-p))
   exp(-qWEI2(
     1 - p,
@@ -163,7 +161,7 @@ qUW_desde_WEI2 <- function(p, mu, sigma) {
 
 
 rUW_desde_WEI2 <- function(n, mu, sigma) {
-
+  
   # Si Y ~ WEI2, entonces X = exp(-Y) ~ Unit-Weibull.
   exp(rWEI2(
     n,
@@ -173,9 +171,8 @@ rUW_desde_WEI2 <- function(n, mu, sigma) {
 }
 
 
-# ------------------------------------------------------------
 # 5. Comprobacion numerica de la equivalencia
-# ------------------------------------------------------------
+
 
 mu <- 0.7
 sigma <- 1.5
@@ -208,9 +205,9 @@ stopifnot(isTRUE(all.equal(
 cat("Comprobacion de densidades: CORRECTA\n")
 
 
-# ------------------------------------------------------------
+
 # 6. Comparacion grafica de las densidades
-# ------------------------------------------------------------
+
 
 plot(
   x,
@@ -240,9 +237,9 @@ legend(
 )
 
 
-# ------------------------------------------------------------
+
 # 7. Comparacion de las funciones de distribucion
-# ------------------------------------------------------------
+
 
 cdf_UW <- pUW_desde_WEI2(
   x, mu = mu, sigma = sigma
@@ -266,9 +263,9 @@ stopifnot(isTRUE(all.equal(
 cat("Comprobacion de CDF: CORRECTA\n")
 
 
-# ------------------------------------------------------------
+
 # 8. Ejemplo de simulacion
-# ------------------------------------------------------------
+
 
 set.seed(2026)
 
@@ -303,3 +300,4 @@ curve(
 )
 
 cat("Simulacion generada correctamente.\n")
+
