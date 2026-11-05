@@ -50,14 +50,14 @@ dUW_desde_WEI2 <- function(x, mu, sigma, log = FALSE) {
     
     # Sustitucion del argumento de WEI2:
     # y = -log(x)
-    y <- -log(x[valido])
+    y <- -base::log(x[valido])
     
     if (log) {
       # En escala logaritmica:
       # log(f_UW) = log(f_WEI2(-log(x))) - log(x)
       resultado[valido] <-
         dWEI2(y, mu = mu, sigma = sigma, log = TRUE) -
-        log(x[valido])
+        base::log(x[valido])
       
     } else {
       # En escala natural:
@@ -92,13 +92,13 @@ dUW_formula <- function(x, mu, sigma, log = FALSE) {
   
   if (any(valido)) {
     
-    z <- -log(x[valido])
+    z <- -base::log(x[valido])
     
     # Logaritmo de la densidad:
-    log_densidad <- log(mu) +
-      log(sigma) -
-      log(x[valido]) +
-      (sigma - 1) * log(z) -
+    log_densidad <- base::log(mu) +
+      base::log(sigma) -
+      base::log(x[valido]) +
+      (sigma - 1) * base::log(z) -
       mu * z^sigma
     
     if (log) {
