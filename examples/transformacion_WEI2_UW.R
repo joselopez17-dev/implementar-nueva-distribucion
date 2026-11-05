@@ -18,7 +18,6 @@
 #       mu    = alpha
 #       sigma = beta
 
-# Instalar una sola vez si el paquete no esta instalado:
 # install.packages("gamlss.dist")
 
 library(gamlss.dist)
