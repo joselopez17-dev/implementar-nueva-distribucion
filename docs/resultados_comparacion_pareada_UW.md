@@ -86,6 +86,54 @@ comparacion_pareada$p_BIC_ajustado_global <-
 print(comparacion_pareada, row.names = FALSE)
 ```
 
+
+---
+
+# Segundo escenario de simulacion: mu = 1.5 y sigma = 0.7
+
+## Diseno
+
+Se repitio la comparacion con 30 muestras independientes de tamano 500 generadas desde UW con `mu = 1.5` y `sigma = 0.7`. Se utilizo la semilla 20261109 y un maximo de 1,000 ciclos. Las cinco familias convergieron en las 30 replicas, por lo que la comparacion pareada incluyo las 30 muestras.
+
+## Comparacion de AIC y BIC
+
+| Competidora | Delta AIC medio | Victorias UW por AIC | Delta BIC medio | Victorias UW por BIC |
+|---|---:|---:|---:|---:|
+| BE | 8.387206 | 28/30 | 8.387206 | 28/30 |
+| BEo | 8.387264 | 28/30 | 8.387264 | 28/30 |
+| LOGITNO | 31.135521 | 29/30 | 31.135521 | 29/30 |
+| GB1 | 2.089716 | 26/30 | 10.518932 | 30/30 |
+
+En el resumen de seleccion entre las cinco familias, UW obtuvo el menor AIC en 25 de 30 replicas (83.33 %) y el menor BIC en 27 de 30 replicas (90.00 %).
+
+## Contrastes de Wilcoxon y ajuste global
+
+Se aplico la prueba de rangos con signo de Wilcoxon con alternativa unilateral de que las diferencias competidora - UW son mayores que cero. Los ocho valores p se ajustaron conjuntamente mediante Benjamini-Hochberg.
+
+| Competidora | p global AIC | p global BIC |
+|---|---:|---:|
+| BE | 1.911127e-06 | 1.911127e-06 |
+| BEo | 1.911127e-06 | 1.911127e-06 |
+| LOGITNO | 1.911127e-06 | 1.911127e-06 |
+| GB1 | 5.065849e-05 | 1.911127e-06 |
+
+Los ocho valores ajustados globalmente son inferiores a 0.001. En este segundo escenario tambien se observa evidencia de diferencias pareadas favorables a UW.
+
+## Sintesis de los dos escenarios
+
+| Escenario | mu | sigma | Victorias AIC de UW | Victorias BIC de UW | Replicas comunes |
+|---|---:|---:|---:|---:|---:|
+| A | 0.7 | 1.5 | 23/30 (76.67 %) | 25/30 (83.33 %) | 30/30 |
+| B | 1.5 | 0.7 | 25/30 (83.33 %) | 27/30 (90.00 %) | 30/30 |
+
+En ambos escenarios las cinco familias convergieron en todas las muestras. UW obtuvo el menor AIC y BIC con mayor frecuencia que las familias competidoras y los contrastes pareados ajustados fueron inferiores a 0.001.
+
+## Conclusion limitada al diseno evaluado
+
+Los dos escenarios simulados aportan evidencia consistente de que UW recupera una ventaja de ajuste segun AIC y BIC cuando los datos provienen de la propia distribucion Unit-Weibull, para las combinaciones de parametros y el tamano muestral considerados.
+
+Estos resultados no prueban superioridad universal de UW. La comparacion sigue condicionada a dos configuraciones de parametros, muestras de tamano 500 y 30 replicaciones por escenario. Para fortalecer la generalizacion se recomienda estudiar mas combinaciones de parametros y, si se dispone de ellos, conjuntos de datos reales con soporte en (0,1).
+
 ## Interpretacion y alcance
 
 Los resultados muestran que, cuando los datos se generan desde UW(mu = 0.7, sigma = 1.5), la familia UW obtiene con mayor frecuencia los menores AIC y BIC entre las cinco familias consideradas. La convergencia completa en las 30 muestras permite realizar una comparacion pareada sin excluir replicas.
