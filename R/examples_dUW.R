@@ -6,8 +6,11 @@
 # source("R/examples_dUW.R")
 # ============================================================
 
+if (!exists(".uw_recycle_args", mode = "function")) {
+  source(file.path("R", "utils.R"))
+}
 if (!exists("dUW", mode = "function")) {
-  stop("Primero debe cargar R/utils.R y R/dUW.R.")
+  source(file.path("R", "dUW.R"))
 }
 
 # Parametros ilustrativos
