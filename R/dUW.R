@@ -174,6 +174,11 @@ rUW <- function(n, mu = 1, sigma = 1) {
   # Si U ~ Uniforme(0,1), Y = (-log(1-U)/mu)^(1/sigma)
   # tiene distribucion WEI2. Luego X = exp(-Y) es UW.
   u <- stats::runif(n)
+  # Evitar exactamente 0 o 1 por redondeo de la maquina:
+  # la respuesta debe quedar estrictamente en (0,1).
+  u[u <= 0] <- .Machine$double.eps
+  u[u >= 1] <- 1 - .Machine$double.eps
+
   y <- (-base::log1p(-u) / mu)^(1 / sigma)
 
   base::exp(-y)
