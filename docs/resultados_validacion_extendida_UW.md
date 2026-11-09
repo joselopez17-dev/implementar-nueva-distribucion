@@ -142,6 +142,38 @@ La media y varianza residuales de ambos modelos son razonablemente cercanas a 0 
 Los graficos contra valores ajustados y contra indice deben revisarse tambien para buscar patrones sistematicos, curvatura, cambios de dispersion o posibles observaciones influyentes. La correlacion de Filliben por si sola no constituye una prueba formal de normalidad ni garantiza que todos los supuestos del modelo se cumplan.
 
 
+
+### Analisis de sensibilidad: observacion 30
+
+La observacion 30 corresponde a:
+
+| Variable | Valor |
+|---|---:|
+| yield | 0.085 |
+| gravity | 31.8 |
+| pressure | 0.2 |
+| temp10 | 316 |
+| temp | 365 |
+| batch | 10 |
+
+Sus residuos cuantiles normalizados fueron -2.401568 para UW y -2.075702 para Beta. Por tanto, la observacion fue relativamente inusual para ambos ajustes, aunque no supero el umbral absoluto de 3.
+
+Se compararon las pendientes estimadas de temperatura en el parametro de localizacion/media al ajustar con las 32 observaciones y al retirar temporalmente la observacion 30:
+
+| Modelo | Pendiente completa | Pendiente sin obs. 30 | Cambio absoluto | Cambio relativo aprox. |
+|---|---:|---:|---:|---:|
+| UW | 0.01530329 | 0.01761164 | +0.00230835 | +15.08 % |
+| Beta | 0.007308239 | 0.007512288 | +0.000204049 | +2.79 % |
+
+Los interceptos tambien cambiaron:
+
+- UW: de -7.83207530 a -8.72068843.
+- Beta: de -3.908155152 a -3.950461511.
+
+La pendiente de temperatura de UW muestra mayor sensibilidad a la exclusion de esta observacion que la pendiente de Beta. Esto es un analisis de sensibilidad de caso eliminado; por si solo no constituye una medida formal de influencia ni justifica eliminar la observacion.
+
+Antes de clasificarla como influyente debe compararse el cambio con el producido al eliminar cada una de las otras 31 observaciones, examinar medidas de apalancamiento/influencia apropiadas para GAMLSS y revisar la significancia y los intervalos de la pendiente en los modelos sin la observacion 30. La observacion se conserva en el analisis principal, salvo que exista una justificacion independiente de error de registro o exclusion.
+
 ### Pruebas adicionales de residuos y worm plots
 
 Se extrajeron los residuos cuantiles normalizados de los modelos finales ajustados directamente en Posit Cloud y se realizaron pruebas Shapiro-Wilk, correlaciones de Spearman frente a temperatura y diagnosticos graficos.
