@@ -124,9 +124,17 @@ qUW <- function(p, mu = 1, sigma = 1,
 
   .uw_validate_parameters(mu, sigma)
 
-  probability <- if (log.p) base::exp(p) else p
-  if (!lower.tail) {
-    probability <- 1 - probability
+  # Convertir la probabilidad a la cola inferior. Para log.p=TRUE
+  # y lower.tail=FALSE se usa -expm1(p), evitando cancelacion
+  # numerica cuando la probabilidad de cola superior es pequena.
+  if (log.p && lower.tail) {
+    probability <- base::exp(p)
+  } else if (log.p && !lower.tail) {
+    probability <- -base::expm1(p)
+  } else if (!log.p && lower.tail) {
+    probability <- p
+  } else {
+    probability <- 1 - p
   }
 
   ans <- rep(NA_real_, length(probability))
