@@ -479,6 +479,60 @@ comparar_familias_UW <- function(
   resumen <- do.call(rbind, resumen_lista)
   resumen <- resumen[order(resumen$AIC_medio), , drop = FALSE]
 
+  # Comparacion pareada: conservar unicamente replicas donde
+  # TODAS las familias convergieron y tienen AIC/BIC finitos.
+  por_replica <- split(bruto, bruto$replica)
+  numero_familias <- length(unique(bruto$familia))
+
+  replicas_comunes <- as.integer(names(por_replica)[vapply(
+    por_replica,
+    function(tabla) {
+      nrow(tabla) == numero_familias &&
+        all(tabla$convergencia) &&
+        all(is.finite(tabla$AIC)) &&
+        all(is.finite(tabla$BIC))
+    },
+    logical(1)
+  )])
+
+  bruto_pareado <- bruto[bruto$replica %in% replicas_comunes, , drop = FALSE]
+  bruto_pareado$mejor_AIC_pareado <- FALSE
+  bruto_pareado$mejor_BIC_pareado <- FALSE
+
+  if (length(replicas_comunes) > 0L) {
+    for (rep in replicas_comunes) {
+      indices <- which(bruto_pareado$replica == rep)
+      ganador_aic <- indices[which.min(bruto_pareado$AIC[indices])]
+      ganador_bic <- indices[which.min(bruto_pareado$BIC[indices])]
+      bruto_pareado$mejor_AIC_pareado[ganador_aic] <- TRUE
+      bruto_pareado$mejor_BIC_pareado[ganador_bic] <- TRUE
+    }
+
+    grupos_pareados <- split(bruto_pareado, bruto_pareado$familia)
+    resumen_pareado <- do.call(rbind, lapply(grupos_pareados, function(grupo) {
+      data.frame(
+        familia = grupo$familia[1],
+        replicas_comunes = length(replicas_comunes),
+        AIC_medio_pareado = mean(grupo$AIC),
+        AIC_mediano_pareado = stats::median(grupo$AIC),
+        BIC_medio_pareado = mean(grupo$BIC),
+        BIC_mediano_pareado = stats::median(grupo$BIC),
+        victorias_AIC_pct = 100 * mean(grupo$mejor_AIC_pareado),
+        victorias_BIC_pct = 100 * mean(grupo$mejor_BIC_pareado),
+        stringsAsFactors = FALSE
+      )
+    }))
+    resumen_pareado <- resumen_pareado[
+      order(resumen_pareado$AIC_medio_pareado),
+      ,
+      drop = FALSE
+    ]
+  } else {
+    resumen_pareado <- data.frame(
+      mensaje = "No hubo replicas en las que todas las familias convergieran."
+    )
+  }
+
   if (!dir.exists(carpeta_salida)) {
     dir.create(carpeta_salida, recursive = TRUE)
   }
@@ -492,19 +546,35 @@ comparar_familias_UW <- function(
     carpeta_salida,
     paste0("comparacion_familias_UW_resumen_", marca_tiempo, ".csv")
   )
+  archivo_pareado <- file.path(
+    carpeta_salida,
+    paste0("comparacion_familias_UW_pareada_", marca_tiempo, ".csv")
+  )
 
   utils::write.csv(bruto, archivo_bruto, row.names = FALSE, na = "")
   utils::write.csv(resumen, archivo_resumen, row.names = FALSE, na = "")
+  utils::write.csv(resumen_pareado, archivo_pareado, row.names = FALSE, na = "")
 
-  cat("\nRESUMEN DE COMPARACION\n")
+  cat("\nRESUMEN DE COMPARACION (ajustes convergentes disponibles)\n")
   print(resumen, row.names = FALSE)
-  cat("\nArchivos guardados:\n", archivo_bruto, "\n", archivo_resumen, "\n")
+  cat("\nNumero de replicas comunes a todas las familias:",
+      length(replicas_comunes), "de", replicas, "\n")
+  cat("\nCOMPARACION PAREADA (mismas replicas para todas las familias)\n")
+  print(resumen_pareado, row.names = FALSE)
+  cat("\nArchivos guardados:\n",
+      archivo_bruto, "\n",
+      archivo_resumen, "\n",
+      archivo_pareado, "\n")
 
   invisible(list(
     detalle = bruto,
     resumen = resumen,
+    detalle_pareado = bruto_pareado,
+    resumen_pareado = resumen_pareado,
+    replicas_comunes = replicas_comunes,
     archivo_detalle = archivo_bruto,
-    archivo_resumen = archivo_resumen
+    archivo_resumen = archivo_resumen,
+    archivo_pareado = archivo_pareado
   ))
 }
 
