@@ -134,6 +134,34 @@ Los dos escenarios simulados aportan evidencia consistente de que UW recupera un
 
 Estos resultados no prueban superioridad universal de UW. La comparacion sigue condicionada a dos configuraciones de parametros, muestras de tamano 500 y 30 replicaciones por escenario. Para fortalecer la generalizacion se recomienda estudiar mas combinaciones de parametros y, si se dispone de ellos, conjuntos de datos reales con soporte en (0,1).
 
+
+---
+
+# Ajuste global de los 16 contrastes de ambos escenarios
+
+Para controlar conjuntamente la multiplicidad de todas las comparaciones realizadas, se reunieron los ocho valores p del escenario A y los ocho del escenario B y se aplico Benjamini-Hochberg una sola vez a los 16 contrastes.
+
+Los siguientes valores se obtuvieron directamente en R a partir de los valores p originales almacenados en los objetos `comparacion_pareada` y `comparacion_B`.
+
+| Escenario | Competidora | p ajustado global AIC | p ajustado global BIC |
+|---|---|---:|---:|
+| A: mu = 0.7, sigma = 1.5 | BE | 3.311419e-06 | 3.311419e-06 |
+| A: mu = 0.7, sigma = 1.5 | BEo | 3.311419e-06 | 3.311419e-06 |
+| A: mu = 0.7, sigma = 1.5 | LOGITNO | 3.168393e-05 | 3.168393e-05 |
+| A: mu = 0.7, sigma = 1.5 | GB1 | 3.520080e-05 | 3.311419e-06 |
+| B: mu = 1.5, sigma = 0.7 | BE | 3.311419e-06 | 3.311419e-06 |
+| B: mu = 1.5, sigma = 0.7 | BEo | 3.311419e-06 | 3.311419e-06 |
+| B: mu = 1.5, sigma = 0.7 | LOGITNO | 3.311419e-06 | 3.311419e-06 |
+| B: mu = 1.5, sigma = 0.7 | GB1 | 5.065849e-05 | 3.311419e-06 |
+
+El mayor valor p ajustado entre los 16 contrastes fue 5.065849e-05. Por tanto, los 16 contrastes permanecen por debajo de 0.001 tras el ajuste conjunto.
+
+## Interpretacion conjunta
+
+En los dos escenarios simulados, las diferencias pareadas de AIC y BIC (criterio de la competidora menos criterio de UW) favorecen a UW. Esta conclusion se mantiene al controlar conjuntamente la tasa de falsos descubrimientos de los 16 contrastes.
+
+La evidencia se limita a los dos escenarios de parametros, a muestras de tamano 500 y a 30 replicaciones por escenario. No implica superioridad universal ni reemplaza una evaluacion con otros escenarios y datos reales.
+
 ## Interpretacion y alcance
 
 Los resultados muestran que, cuando los datos se generan desde UW(mu = 0.7, sigma = 1.5), la familia UW obtiene con mayor frecuencia los menores AIC y BIC entre las cinco familias consideradas. La convergencia completa en las 30 muestras permite realizar una comparacion pareada sin excluir replicas.
