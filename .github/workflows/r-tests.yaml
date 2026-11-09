@@ -19,10 +19,13 @@ jobs:
         uses: r-lib/actions/setup-r@v2
 
       - name: Install R dependencies
-        run: Rscript -e 'install.packages(c("gamlss", "gamlss.dist"), repos = "https://cloud.r-project.org")'
+        run: Rscript -e 'install.packages(c("gamlss", "gamlss.dist", "betareg"), repos = "https://cloud.r-project.org")'
 
       - name: Check simulation study script loads
         run: Rscript -e 'source("simulation/estudio_simulacion_UW.R")'
+
+      - name: Parse extended simulation and real-data scripts
+        run: Rscript -e 'invisible(parse(file="simulation/estudio_parametros_UW.R")); invisible(parse(file="simulation/aplicacion_datos_reales_UW.R"))'
 
       - name: Generate Unit-Weibull density and CDF plots
         run: Rscript -e 'source("simulation/graficar_curvas_UW.R")'
