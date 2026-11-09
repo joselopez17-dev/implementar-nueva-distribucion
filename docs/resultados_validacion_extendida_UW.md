@@ -92,6 +92,28 @@ La inclusion de temperatura redujo el AIC y BIC de los modelos frente a sus vers
 
 
 
+
+### Intervalos de confianza del 95 % y sensibilidad de la pendiente
+
+Se calcularon intervalos de confianza de tipo Wald para el coeficiente de temperatura en los modelos con las 32 observaciones y despues de retirar individualmente las observaciones 21, 30 y 32. Los intervalos se construyeron con el error estandar obtenido de la matriz de covarianzas de GAMLSS y el cuantil t con los grados de libertad residuales del ajuste.
+
+| Modelo | Estimacion | Error estandar | gl | IC 95 % inferior | IC 95 % superior |
+|---|---:|---:|---:|---:|---:|
+| UW completo | 0.015303 | 0.003117 | 29 | 0.008928 | 0.021678 |
+| UW sin observacion 21 | 0.013699 | 0.003132 | 28 | 0.007284 | 0.020115 |
+| UW sin observacion 30 | 0.017612 | 0.003299 | 28 | 0.010854 | 0.024369 |
+| UW sin observacion 32 | 0.016798 | 0.003418 | 28 | 0.009796 | 0.023801 |
+| Beta completo | 0.007308 | 0.001446 | 29 | 0.004352 | 0.010265 |
+| Beta sin observacion 21 | 0.006729 | 0.001472 | 28 | 0.003715 | 0.009743 |
+| Beta sin observacion 30 | 0.007512 | 0.001368 | 28 | 0.004710 | 0.010315 |
+| Beta sin observacion 32 | 0.007960 | 0.001485 | 28 | 0.004919 | 0.011001 |
+
+Los ocho intervalos permanecen por encima de cero. Por tanto, la asociacion positiva entre temperatura y el parametro de localizacion/media correspondiente se mantiene en los ajustes de sensibilidad considerados.
+
+Para UW, el enlace de mu es log: exp(beta_temp) representa el factor multiplicativo del parametro mu por una unidad de temperatura. Para Beta, el enlace de mu es logit: exp(beta_temp) representa el factor multiplicativo en los momios del parametro medio mu. Ninguno de estos exponentes es un cambio porcentual directo de yield.
+
+Estos intervalos aportan evidencia de estabilidad en la direccion de la asociacion, pero no demuestran que el efecto sea identico al retirar casos. Las pendientes cambian, particularmente para UW al retirar la observacion 30. La comparacion entre magnitudes de los coeficientes UW y Beta debe evitarse porque sus enlaces y parametros tienen interpretaciones diferentes.
+
 ### Sensibilidad leave-one-out de la pendiente de temperatura
 
 Se reajustaron ambos modelos 32 veces por familia, retirando una observacion distinta en cada ajuste. Los 64 modelos convergieron.
