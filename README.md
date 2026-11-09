@@ -32,13 +32,20 @@ $$
 Aplicando $Y=-\log(X)$ y el jacobiano $|dY/dX|=1/X$, se obtiene:
 
 $$
-f_X(x;\mu,\sigma)=\frac{1}{x}
-f_Y(-\log x;\mu,\sigma).
+f_X(x;\mu,\sigma)=\frac{1}{x}f_Y(-\log x;\mu,\sigma).
 $$
 
-Por tanto, la transformación conserva los parámetros: $\mu=\alpha$ y $\sigma=\beta$. El script de comparación algebraica y numérica está en `examples/transformacion_WEI2_UW.R`.
+Por tanto, la transformación conserva los parámetros: $\mu=\alpha$ y $\sigma=\beta$. El script de comparación algebraica y numérica está en [`examples/transformacion_WEI2_UW.R`](examples/transformacion_WEI2_UW.R).
 
 **Importante:** WEI2 se utiliza aquí como distribución de referencia para comprobar la transformación. La familia Unit-Weibull que se desarrolle para GAMLSS debe tener sus propias funciones y derivadas, además de las validaciones correspondientes.
+
+## Familias existentes en GAMLSS para datos unitarios
+
+Se documentaron las familias disponibles para respuestas entre cero y uno y se distinguieron las familias continuas de las que admiten masa puntual en los extremos. Consulta [`docs/familias_0_1_en_gamlss.md`](docs/familias_0_1_en_gamlss.md).
+
+El script [`examples/verificar_familias_gamlss.R`](examples/verificar_familias_gamlss.R) comprueba qué funciones están presentes en la instalación local de `gamlss.dist`. También incluye una plantilla para comparar ajustes con `fitDist()` cuando se disponga de una muestra real.
+
+Entre las referencias que conviene revisar están `BE()`, `BEo()`, `GB1()` y `LOGITNO()`. Las familias infladas, como `BEZI()`, `BEOI()` y `BEINF()`, deben considerarse según exista o no masa puntual en los extremos.
 
 ## Objetivo general
 
@@ -66,18 +73,20 @@ unit-weibull-gamlss/
 │   └── utils.R
 ├── tests/
 ├── examples/
-│   └── transformacion_WEI2_UW.R
+│   ├── transformacion_WEI2_UW.R
+│   └── verificar_familias_gamlss.R
 ├── simulation/
 │   └── resultados/
 ├── docs/
+│   └── familias_0_1_en_gamlss.md
 └── poster/
 ```
 
-Los cinco archivos R indicados corresponden a los entregables principales del proyecto. El script ubicado en `examples/` es un ejemplo auxiliar de transformación y contraste con WEI2; no reemplaza ninguno de los cinco entregables.
+Los cinco archivos R indicados corresponden a los entregables principales del proyecto. Los scripts de `examples/` son auxiliares y no reemplazan ninguno de los cinco entregables.
 
 ## Estado del proyecto
 
-**En desarrollo.** La equivalencia algebraica con WEI2 está documentada. Falta ejecutar las pruebas en RStudio y validar la familia y sus derivadas dentro de GAMLSS.
+**En desarrollo.** La equivalencia algebraica con WEI2 está documentada. Se inició la revisión de familias existentes en GAMLSS para el intervalo unitario. Falta ejecutar las pruebas en RStudio y construir y validar la familia UW.
 
 ## Referencia principal
 
@@ -85,7 +94,7 @@ Mazucheli, J., Menezes, A. F. B. y Ghitany, M. E. (2018). *The Unit-Weibull Dist
 
 ## Referencia de WEI2
 
-Documentación de `gamlss.dist`: [WEI2 — Weibull parameterization](https://rdrr.io/cran/gamlss.dist/man/WEI2.html).
+Documentación de `gamlss.dist`: [WEI2 — Weibull parameterization](https://cran.r-project.org/web/packages/gamlss.dist/refman/gamlss.dist.html).
 
 ## Tecnologías
 
