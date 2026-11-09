@@ -102,6 +102,8 @@ summary(ajuste)
 
 
 ## Graficas de densidad y distribucion acumulada
+La interpretacion matematica de las cuatro figuras, incluyendo el comportamiento en los extremos del soporte y el papel de los parametros, esta documentada en [docs/interpretacion_curvas_UW.md](docs/interpretacion_curvas_UW.md).
+
 
 El script [simulation/graficar_curvas_UW.R](simulation/graficar_curvas_UW.R) genera graficas de densidad y de la funcion de distribucion acumulada para los cuatro escenarios del diseno factorial. Produce archivos PNG y PDF y una tabla CSV con los valores graficados.
 
