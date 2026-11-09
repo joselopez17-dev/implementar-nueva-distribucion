@@ -116,6 +116,9 @@ El conjunto de pruebas incluye:
 - Simulación dentro del intervalo unitario.
 - Estructura del objeto `gamlss.family`.
 - Comparación de scores analíticos con diferencias finitas.
+- Prueba de ajuste de intercepto con una muestra simulada en `gamlss::gamlss()`.
+
+El reporte de los resultados ejecutados en GitHub Actions está en [`docs/reporte_pruebas_iniciales.md`](docs/reporte_pruebas_iniciales.md).
 
 También se configuró GitHub Actions para ejecutar las pruebas con R en cada actualización de `main`. Los resultados deben revisarse en la pestaña **Actions** del repositorio.
 
@@ -129,7 +132,7 @@ También se configuró GitHub Actions para ejecutar las pruebas con R en cada ac
 
 ## Estado del proyecto
 
-**En desarrollo.** Se creó una primera versión de los cinco archivos R. Quedan pendientes la ejecución y depuración en RStudio, la validación completa del ajuste, el estudio Monte Carlo y el póster académico.
+**En desarrollo.** La primera versión de los cinco archivos R superó las pruebas automatizadas de densidad, CDF, cuantiles, derivadas y un ajuste inicial de intercepto en GAMLSS dentro de GitHub Actions. Quedan pendientes la reproducción en RStudio, pruebas adicionales, comparación con otras familias, estudio Monte Carlo y póster académico.
 
 ## Referencia principal
 
