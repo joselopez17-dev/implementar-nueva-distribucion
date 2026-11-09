@@ -24,5 +24,8 @@ jobs:
       - name: Check simulation study script loads
         run: Rscript -e 'source("simulation/estudio_simulacion_UW.R")'
 
+      - name: Generate Unit-Weibull density and CDF plots
+        run: Rscript -e 'source("simulation/graficar_curvas_UW.R")'
+
       - name: Run Unit-Weibull tests
         run: Rscript tests/run_all_tests.R
