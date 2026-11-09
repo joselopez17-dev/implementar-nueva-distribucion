@@ -39,6 +39,46 @@ datos <- data.frame(
 
 stopifnot(all(datos$x > 0 & datos$x < 1))
 
+# ------------------------------------------------------------
+# Comprobacion numerica de las primeras derivadas
+# ------------------------------------------------------------
+
+x0 <- 0.4
+mu0 <- 0.7
+sigma0 <- 1.5
+h <- 1e-6
+z0 <- -base::log(x0)
+
+log_density <- function(m, s) {
+  dUW(x0, mu = m, sigma = s, log = TRUE)
+}
+
+dldm_analitica <- (1 / mu0) - z0^sigma0
+dldd_analitica <- (1 / sigma0) +
+  base::log(z0) - mu0 * z0^sigma0 * base::log(z0)
+
+dldm_numerica <- (
+  log_density(mu0 + h, sigma0) -
+    log_density(mu0 - h, sigma0)
+) / (2 * h)
+
+dldd_numerica <- (
+  log_density(mu0, sigma0 + h) -
+    log_density(mu0, sigma0 - h)
+) / (2 * h)
+
+cat("dldm analitica:", dldm_analitica, "\n")
+cat("dldm numerica:", dldm_numerica, "\n")
+cat("dldd analitica:", dldd_analitica, "\n")
+cat("dldd numerica:", dldd_numerica, "\n")
+
+stopifnot(
+  abs(dldm_analitica - dldm_numerica) < 1e-5,
+  abs(dldd_analitica - dldd_numerica) < 1e-5
+)
+
+cat("Comprobacion numerica de scores: CORRECTA\n")
+
 # Ajuste de intercepto para ambos parametros.
 # Se utiliza RS como primer intento; si no converge,
 # revisar valores iniciales, derivadas y algoritmo.
