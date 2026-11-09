@@ -63,3 +63,10 @@ Prater (1956), datos de rendimiento de gasolina a partir de petroleo crudo, difu
 - Se trata de un ejemplo historico de rendimiento de proceso, no de una muestra representativa de todas las operaciones de refinacion.
 - El modelo con temperatura es exploratorio; no se debe interpretar causalmente.
 - No se deben seleccionar conclusiones a partir de unicamente el AIC/BIC. Es necesario revisar convergencia, residuos, forma de las curvas y el alcance de los datos.
+
+
+## Fuentes de los datos reales
+
+- Documentacion CRAN del paquete betareg: https://cloud.r-project.org/web/packages/betareg/refman/betareg.html
+- Vignette de beta regression que describe GasolineYield y su contexto: https://cran.r-project.org/web/packages/betareg/vignettes/betareg.html
+- Resumen de datos y rango de yield reportado por R Observatory: https://observe.rstats.dev/cran/betareg/data/GasolineYield
