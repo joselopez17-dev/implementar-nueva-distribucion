@@ -101,6 +101,18 @@ summary(ajuste)
 ```
 
 
+## Graficas de densidad y distribucion acumulada
+
+El script [simulation/graficar_curvas_UW.R](simulation/graficar_curvas_UW.R) genera graficas de densidad y de la funcion de distribucion acumulada para los cuatro escenarios del diseno factorial. Produce archivos PNG y PDF y una tabla CSV con los valores graficados.
+
+Desde la raiz del proyecto:
+
+```r
+source("simulation/graficar_curvas_UW.R")
+```
+
+Los archivos quedan en `resultados_simulacion/`. Las graficas usan valores interiores al soporte abierto, sin incluir 0 ni 1.
+
 ## Estudio de simulacion
 
 Se agrego el script [simulation/estudio_simulacion_UW.R](simulation/estudio_simulacion_UW.R), que define dos procedimientos:
