@@ -162,6 +162,52 @@ En los dos escenarios simulados, las diferencias pareadas de AIC y BIC (criterio
 
 La evidencia se limita a los dos escenarios de parametros, a muestras de tamano 500 y a 30 replicaciones por escenario. No implica superioridad universal ni reemplaza una evaluacion con otros escenarios y datos reales.
 
+
+---
+
+# Tercer y cuarto escenarios de simulacion
+
+Se completaron dos escenarios adicionales, ambos con 30 replicas de tamano 500, un maximo de 1,000 ciclos y convergencia de las cinco familias en las 30 replicas.
+
+## Escenario C: mu = 0.7 y sigma = 0.7
+
+| Familia | AIC medio | BIC medio | Victorias UW AIC | Victorias UW BIC |
+|---|---:|---:|---:|---:|
+| UW | -490.7401 | -482.3108 | 27/30 (90.00 %) | 30/30 (100 %) |
+| GB1 | -488.5656 | -471.7072 | 3/30 (10.00 %) | 0/30 (0 %) |
+| BE | -472.1506 | -463.7214 | 0/30 (0 %) | 0/30 (0 %) |
+| BEo | -472.1506 | -463.7214 | 0/30 (0 %) | 0/30 (0 %) |
+| LOGITNO | -321.6707 | -313.2414 | 0/30 (0 %) | 0/30 (0 %) |
+
+UW obtuvo el menor AIC en 27 de 30 replicas y el menor BIC en las 30 replicas.
+
+## Escenario D: mu = 1.5 y sigma = 1.5
+
+| Familia | AIC medio | BIC medio | Victorias UW AIC | Victorias UW BIC |
+|---|---:|---:|---:|---:|
+| UW | -168.9657 | -160.5365 | 24/30 (80.00 %) | 26/30 (86.67 %) |
+| GB1 | -166.1275 | -149.2691 | 2/30 (6.67 %) | 0/30 (0 %) |
+| BE | -163.8302 | -155.4010 | 4/30 (13.33 %) | 4/30 (13.33 %) |
+| BEo | -163.8298 | -155.4006 | 0/30 (0 %) | 0/30 (0 %) |
+| LOGITNO | -152.2902 | -143.8610 | 0/30 (0 %) | 0/30 (0 %) |
+
+UW obtuvo el menor AIC en 24 de 30 replicas y el menor BIC en 26 de 30 replicas.
+
+## Resumen descriptivo de los cuatro escenarios
+
+| Escenario | mu | sigma | Victorias UW AIC | Victorias UW BIC | Convergencia de todas las familias |
+|---|---:|---:|---:|---:|---:|
+| A | 0.7 | 1.5 | 23/30 (76.67 %) | 25/30 (83.33 %) | 30/30 |
+| B | 1.5 | 0.7 | 25/30 (83.33 %) | 27/30 (90.00 %) | 30/30 |
+| C | 0.7 | 0.7 | 27/30 (90.00 %) | 30/30 (100 %) | 30/30 |
+| D | 1.5 | 1.5 | 24/30 (80.00 %) | 26/30 (86.67 %) | 30/30 |
+
+En los cuatro escenarios, todas las familias convergieron en las 30 replicas y UW obtuvo el menor AIC y BIC con mayor frecuencia. Estos son resultados descriptivos de seleccion por replica; aun falta aplicar pruebas pareadas de Wilcoxon a los escenarios C y D y un ajuste global conjunto de los 32 contrastes de los cuatro escenarios.
+
+## Alcance
+
+Los cuatro escenarios corresponden a un diseno factorial 2 x 2 de parametros generadores (`mu` en {0.7, 1.5} y `sigma` en {0.7, 1.5}), con 30 muestras de tamano 500 por escenario. Este diseno explora cuatro combinaciones, pero no representa todos los posibles valores de los parametros ni sustituye una evaluacion con datos reales.
+
 ## Interpretacion y alcance
 
 Los resultados muestran que, cuando los datos se generan desde UW(mu = 0.7, sigma = 1.5), la familia UW obtiene con mayor frecuencia los menores AIC y BIC entre las cinco familias consideradas. La convergencia completa en las 30 muestras permite realizar una comparacion pareada sin excluir replicas.
