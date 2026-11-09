@@ -102,6 +102,8 @@ summary(ajuste)
 
 
 ## Validacion extendida y aplicacion con datos reales
+Los resultados ejecutados y su interpretacion se encuentran en [docs/resultados_validacion_extendida_UW.md](docs/resultados_validacion_extendida_UW.md). Este informe distingue el estudio Monte Carlo (1,350 ajustes exitosos) de la aplicacion real GasolineYield, donde la familia BE obtuvo los menores AIC/BIC en las dos especificaciones probadas.
+
 
 Se agregaron dos scripts:
 
