@@ -358,7 +358,13 @@ comparar_familias_UW <- function(
     stop("'mu' y 'sigma' deben ser positivos y finitos.")
   }
 
+  # Generar todas las muestras antes de ajustar modelos.
+  # Asi, el conjunto de datos no depende de si una familia
+  # consume numeros aleatorios durante su estimacion.
   set.seed(semilla)
+  muestras <- lapply(seq_len(replicas), function(i) {
+    rUW(n, mu = mu, sigma = sigma)
+  })
   resultados <- vector("list", replicas)
 
   cat("\nCOMPARACION DE FAMILIAS GAMLSS\n")
@@ -367,7 +373,7 @@ comparar_familias_UW <- function(
   cat("Replicas:", replicas, "\n\n")
 
   for (b in seq_len(replicas)) {
-    muestra <- rUW(n, mu = mu, sigma = sigma)
+    muestra <- muestras[[b]]
 
     # Las cinco familias se ajustan a exactamente la misma muestra.
     familias <- list(
