@@ -66,6 +66,15 @@ Todos los modelos se ajustan a las mismas observaciones dentro de cada replica. 
 
 La comparacion no presupone que UW deba ganar. Un menor AIC/BIC en las muestras estudiadas indica mejor compromiso entre ajuste y complejidad para esos datos simulados, no superioridad universal.
 
+
+### Comparacion pareada y reproducibilidad
+
+El script genera todas las muestras al comienzo, antes de ajustar las familias. Esto mantiene fijo el conjunto de datos aunque un procedimiento de estimacion consuma numeros aleatorios.
+
+Ademas del resumen exploratorio calculado con los ajustes convergentes disponibles, el script genera un segundo resumen pareado. Este ultimo conserva solo las replicas en las que todas las familias convergieron y sus AIC/BIC son finitos. Las medias y victorias de AIC/BIC se calculan sobre exactamente las mismas replicas, haciendo la comparacion mas justa.
+
+Si algunas familias no convergen en una replica, esa replica no entra en el resumen pareado, pero permanece en los archivos de detalle para documentar el fallo. Se debe reportar siempre cuantas replicas comunes quedaron disponibles.
+
 ## 4. Ejecucion en Posit Cloud
 
 Desde la raiz del repositorio:
