@@ -74,4 +74,45 @@ cat("Score analitico mu:", score_mu, "\n")
 cat("Score numerico mu:", score_mu_num, "\n")
 cat("Score analitico sigma:", score_sigma, "\n")
 cat("Score numerico sigma:", score_sigma_num, "\n")
+# 5. Prueba de integracion: ajustar una muestra simulada con GAMLSS.
+# Confirma que la familia puede participar en el algoritmo de estimacion.
+if (!requireNamespace("gamlss", quietly = TRUE)) {
+  stop("Instale gamlss para ejecutar la prueba de ajuste.")
+}
+
+set.seed(2026)
+mu_real <- 0.7
+sigma_real <- 1.5
+datos_prueba <- data.frame(
+  x = rUW(800, mu = mu_real, sigma = sigma_real)
+)
+
+ajuste_prueba <- gamlss::gamlss(
+  x ~ 1,
+  sigma.fo = ~1,
+  family = UW(),
+  data = datos_prueba,
+  control = gamlss::gamlss.control(
+    n.cyc = 100,
+    trace = FALSE
+  )
+)
+
+mu_estimado <- stats::fitted(ajuste_prueba, what = "mu")[1]
+sigma_estimado <- stats::fitted(ajuste_prueba, what = "sigma")[1]
+
+cat("mu estimado:", mu_estimado, "\n")
+cat("sigma estimado:", sigma_estimado, "\n")
+
+stopifnot(
+  length(mu_estimado) == 1L,
+  length(sigma_estimado) == 1L,
+  is.finite(mu_estimado),
+  is.finite(sigma_estimado),
+  mu_estimado > 0,
+  sigma_estimado > 0
+)
+
+cat("\nPRUEBA DE AJUSTE GAMLSS SUPERADA.\n")
+
 cat("\nPRUEBAS DE ESTRUCTURA Y SCORES DE UW SUPERADAS.\n")
