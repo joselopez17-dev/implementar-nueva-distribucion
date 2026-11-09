@@ -63,12 +63,21 @@ if (!requireNamespace("gamlss", quietly = TRUE) ||
     ))
   }
 
+  advertencia_no_convergencia <- any(grepl(
+    "Algorithm RS has not yet converged",
+    advertencias,
+    fixed = TRUE
+  ))
+
   convergencia <- ajuste$converged
   if (is.null(convergencia) || length(convergencia) == 0L) {
+    # No depender solo de iter < max_cycles: un algoritmo puede
+    # converger en el ultimo ciclo permitido sin emitir advertencia.
     convergencia <- is.finite(ajuste$G.deviance) &&
-      !is.null(ajuste$iter) && ajuste$iter < max_cycles
+      !advertencia_no_convergencia
   } else {
-    convergencia <- isTRUE(convergencia)
+    convergencia <- isTRUE(convergencia) &&
+      !advertencia_no_convergencia
   }
 
   list(
