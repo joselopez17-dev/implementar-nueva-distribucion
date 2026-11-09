@@ -58,16 +58,16 @@ Como comprobacion mas conservadora, tambien se aplico Benjamini-Hochberg conjunt
 
 | Contraste | p ajustado global |
 |---|---:|
-| AIC - BE | 3.973702e-06 |
-| AIC - BEo | 3.973702e-06 |
+| AIC - BE | 3.973703e-06 |
+| AIC - BEo | 3.973703e-06 |
 | AIC - LOGITNO | 3.168393e-05 |
 | AIC - GB1 | 3.300075e-05 |
-| BIC - BE | 3.973702e-06 |
-| BIC - BEo | 3.973702e-06 |
+| BIC - BE | 3.973703e-06 |
+| BIC - BEo | 3.973703e-06 |
 | BIC - LOGITNO | 3.168393e-05 |
-| BIC - GB1 | 3.973702e-06 |
+| BIC - GB1 | 3.973703e-06 |
 
-Los ocho valores ajustados globalmente son inferiores a 0.001. Estos resultados apoyan diferencias pareadas favorables a UW en el escenario de simulacion analizado.
+Los ocho valores ajustados globalmente obtenidos directamente en R son inferiores a 0.001. Esto aporta evidencia de que las diferencias pareadas competidora - UW tienden a ser positivas en el escenario de simulacion analizado. El contraste de Wilcoxon evalua la localizacion de las diferencias pareadas y no debe interpretarse como una prueba de superioridad universal.
 
 Para obtener los valores globales exactos desde R, aplicar el ajuste a los ocho valores p originales almacenados en el objeto:
 
