@@ -17,12 +17,12 @@
 # ============================================================
 
 UW <- function(mu.link = "log", sigma.link = "log") {
-  mstats <- checklink(
+  mstats <- gamlss.dist::checklink(
     "mu.link", "Unit-Weibull", substitute(mu.link),
     c("inverse", "log", "identity", "own")
   )
 
-  dstats <- checklink(
+  dstats <- gamlss.dist::checklink(
     "sigma.link", "Unit-Weibull", substitute(sigma.link),
     c("inverse", "log", "identity", "own")
   )
