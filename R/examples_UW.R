@@ -87,7 +87,7 @@ ajuste_UW <- gamlss::gamlss(
   sigma.fo = ~1,
   family = UW(),
   data = datos,
-  method = gamlss::RS(),
+  # Se omite method para utilizar el RS() predeterminado de gamlss.
   control = gamlss::gamlss.control(
     n.cyc = 100,
     trace = FALSE
