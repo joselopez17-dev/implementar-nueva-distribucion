@@ -101,6 +101,22 @@ summary(ajuste)
 ```
 
 
+## Validacion extendida y aplicacion con datos reales
+
+Se agregaron dos scripts:
+
+- [simulation/estudio_parametros_UW.R](simulation/estudio_parametros_UW.R): diseno factorial 3 x 3 para mu = 0.5, 1, 2 y sigma = 0.5, 1, 1.5; tamanos muestrales 100, 300 y 800; 50 replicas por combinacion.
+- [simulation/aplicacion_datos_reales_UW.R](simulation/aplicacion_datos_reales_UW.R): aplicacion exploratoria a GasolineYield del paquete betareg, con verificacion del soporte, comparacion de familias y graficas.
+
+Protocolo y limites: [docs/plan_validacion_extendida_UW.md](docs/plan_validacion_extendida_UW.md).
+
+Para la aplicacion real se requiere instalar betareg:
+
+```r
+install.packages(c("betareg", "gamlss", "gamlss.dist"))
+source("simulation/aplicacion_datos_reales_UW.R")
+```
+
 ## Graficas de densidad y distribucion acumulada
 La interpretacion matematica de las cuatro figuras, incluyendo el comportamiento en los extremos del soporte y el papel de los parametros, esta documentada en [docs/interpretacion_curvas_UW.md](docs/interpretacion_curvas_UW.md).
 
