@@ -54,7 +54,7 @@ El ajuste Benjamini-Hochberg realizado por separado para las cuatro comparacione
 | LOGITNO | 3.300075e-05 | 2.772344e-05 |
 | GB1 | 3.300075e-05 | 3.311419e-06 |
 
-Como comprobacion mas conservadora, tambien se puede aplicar Benjamini-Hochberg conjuntamente a los ocho contrastes:
+Como comprobacion mas conservadora, tambien se aplico Benjamini-Hochberg conjuntamente a los ocho contrastes. Los valores de la tabla siguiente se recalcularon a partir de los valores p impresos en la consola (redondeados); para el reporte definitivo deben regenerarse con la precision completa desde el objeto de R usando el codigo incluido abajo:
 
 | Contraste | p ajustado global |
 |---|---:|
@@ -68,6 +68,23 @@ Como comprobacion mas conservadora, tambien se puede aplicar Benjamini-Hochberg 
 | BIC - GB1 | 3.973702e-06 |
 
 Los ocho valores ajustados globalmente son inferiores a 0.001. Estos resultados apoyan diferencias pareadas favorables a UW en el escenario de simulacion analizado.
+
+Para obtener los valores globales exactos desde R, aplicar el ajuste a los ocho valores p originales almacenados en el objeto:
+
+```r
+p_global <- p.adjust(
+  c(comparacion_pareada$p_AIC, comparacion_pareada$p_BIC),
+  method = "BH"
+)
+
+comparacion_pareada$p_AIC_ajustado_global <-
+  p_global[seq_len(nrow(comparacion_pareada))]
+
+comparacion_pareada$p_BIC_ajustado_global <-
+  p_global[nrow(comparacion_pareada) + seq_len(nrow(comparacion_pareada))]
+
+print(comparacion_pareada, row.names = FALSE)
+```
 
 ## Interpretacion y alcance
 
