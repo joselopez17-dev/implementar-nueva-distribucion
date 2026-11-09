@@ -15,10 +15,17 @@ if (!requireNamespace("gamlss", quietly = TRUE)) {
   stop("Instale el paquete gamlss.")
 }
 
-if (!exists("UW", mode = "function") ||
-    !exists("rUW", mode = "function")) {
-  stop("Primero cargue R/utils.R, R/dUW.R y R/UW.R.")
+if (!exists(".uw_recycle_args", mode = "function")) {
+  source(file.path("R", "utils.R"))
 }
+if (!exists("dUW", mode = "function")) {
+  source(file.path("R", "dUW.R"))
+}
+if (!exists("UW", mode = "function")) {
+  source(file.path("R", "UW.R"))
+}
+
+library(gamlss.dist)
 
 # Generar una muestra conocida
 set.seed(2026)
@@ -54,8 +61,8 @@ cat("mu =", mu_real, "\n")
 cat("sigma =", sigma_real, "\n")
 
 cat("\nParametros estimados:\n")
-print(gamlss::fitted(ajuste_UW, what = "mu")[1])
-print(gamlss::fitted(ajuste_UW, what = "sigma")[1])
+print(stats::fitted(ajuste_UW, what = "mu")[1])
+print(stats::fitted(ajuste_UW, what = "sigma")[1])
 
 # Diagnosticos basicos
 graphics::par(mfrow = c(1, 2))
