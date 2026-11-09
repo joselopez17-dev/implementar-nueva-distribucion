@@ -100,6 +100,38 @@ ajuste <- gamlss(
 summary(ajuste)
 ```
 
+
+## Estudio de simulacion
+
+Se agrego el script [simulation/estudio_simulacion_UW.R](simulation/estudio_simulacion_UW.R), que define dos procedimientos:
+
+1. `ejecutar_monte_carlo_UW()`: simula datos desde UW y evalua sesgo, sesgo relativo, desviacion estandar, ECM, RMSE, cobertura de intervalos Wald del 95 %, longitud media de los intervalos y porcentaje de convergencia.
+2. `comparar_familias_UW()`: ajusta UW, BE, BEo, LOGITNO y GB1 sobre las mismas muestras simuladas y resume AIC, BIC/SBC y la frecuencia con que cada familia obtiene el menor criterio.
+
+El protocolo, los escenarios y la interpretacion se documentan en [docs/protocolo_estudio_simulacion_UW.md](docs/protocolo_estudio_simulacion_UW.md).
+
+Para ejecutarlo desde la raiz del proyecto en Posit Cloud:
+
+```r
+source("simulation/estudio_simulacion_UW.R")
+
+resultado_mc <- ejecutar_monte_carlo_UW(
+  B = 100,
+  tamanos = c(100, 300, 800)
+)
+
+resultado_comparacion <- comparar_familias_UW(
+  replicas = 30,
+  n = 500,
+  mu = 0.7,
+  sigma = 1.5
+)
+```
+
+Los resultados detallados y resumidos se guardan como archivos CSV en `resultados_simulacion/`. La ejecucion inicial usa 100 replicaciones por escenario y tamano de muestra, y 30 replicaciones para la comparacion de familias. Para el poster final se recomienda aumentar las replicaciones cuando se haya comprobado el tiempo de ejecucion.
+
+**Estado de los resultados:** el codigo del estudio ya esta agregado al repositorio, pero los resultados Monte Carlo y la comparacion de familias aun deben ejecutarse y revisarse en Posit Cloud. No se deben presentar conclusiones de sesgo, cobertura o superioridad de UW antes de analizar esos CSV.
+
 ## Pruebas
 
 Desde la carpeta raíz del repositorio, ejecutar:
