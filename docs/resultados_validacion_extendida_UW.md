@@ -141,6 +141,43 @@ La media y varianza residuales de ambos modelos son razonablemente cercanas a 0 
 
 Los graficos contra valores ajustados y contra indice deben revisarse tambien para buscar patrones sistematicos, curvatura, cambios de dispersion o posibles observaciones influyentes. La correlacion de Filliben por si sola no constituye una prueba formal de normalidad ni garantiza que todos los supuestos del modelo se cumplan.
 
+
+### Pruebas adicionales de residuos y worm plots
+
+Se extrajeron los residuos cuantiles normalizados de los modelos finales ajustados directamente en Posit Cloud y se realizaron pruebas Shapiro-Wilk, correlaciones de Spearman frente a temperatura y diagnosticos graficos.
+
+#### Normalidad de residuos
+
+| Indicador | UW | Beta |
+|---|---:|---:|
+| Shapiro-Wilk W | 0.9513 | 0.98225 |
+| Valor p | 0.1569 | 0.8618 |
+| Residuos con valor absoluto > 2 | 1 (observacion 30) | 1 (observacion 30) |
+| Residuos con valor absoluto > 3 | 0 | 0 |
+
+Con nivel de significancia de 5 %, no se rechaza la hipotesis nula de normalidad de los residuos para ninguno de los dos modelos. Esto no demuestra que los residuos sean exactamente normales; con n = 32 la prueba tiene potencia limitada y debe interpretarse junto con los graficos.
+
+La observacion 30 presenta un residuo cuantitativo con valor absoluto mayor que 2 en ambos modelos. No hay residuos por encima de 3. Al aparecer en los dos ajustes, conviene revisar esa observacion en los datos originales, sin clasificarla automaticamente como error o punto influyente.
+
+#### Asociacion de residuos con temperatura
+
+| Modelo | Correlacion de Spearman | Valor p |
+|---|---:|---:|
+| UW | -0.02897 | 0.8749 |
+| Beta | -0.04841 | 0.7925 |
+
+No se encontro evidencia de una asociacion monotona entre los residuos y la temperatura para ninguno de los modelos. Los diagramas de dispersion tampoco muestran un patron monotono marcado. Esta prueba no reemplaza la inspeccion de otros patrones ni constituye una prueba completa de independencia.
+
+#### Worm plots y graficos de diagnostico
+
+En los worm plots generales, los puntos se mantienen en general dentro de las bandas de confianza. El worm plot de UW muestra una curvatura suave mas visible, mientras que el de Beta se observa mas cercano a la linea horizontal de referencia.
+
+En los worm plots condicionados por tres intervalos de temperatura, no se aprecia una desviacion sistematica grande en ninguno de los modelos; los puntos permanecen en general dentro de las bandas graficadas. La lectura es exploratoria debido al tamano reducido de la muestra y al numero de observaciones por intervalo.
+
+#### Conclusion del diagnostico
+
+Ambos modelos presentan diagnosticos residuales globalmente aceptables para esta aplicacion exploratoria: no se rechazo normalidad mediante Shapiro-Wilk, no se detecto asociacion monotona significativa entre residuos y temperatura y los worm plots no muestran desviaciones grandes fuera de las bandas. Beta presenta indicadores descriptivos mas cercanos a la normalidad (mayor correlacion de Filliben, menor asimetria absoluta y mayor valor p de Shapiro-Wilk) y tambien obtuvo menores AIC/BIC en este conjunto de datos. Por tanto, para GasolineYield, la evidencia de ajuste favorece a Beta; UW sigue siendo un modelo convergente y razonable, pero no el seleccionado por los criterios de informacion ni por los indicadores residuales comparados.
+
 ### Interpretacion de la aplicacion real
 
 La aplicacion a GasolineYield muestra que UW puede ajustarse correctamente a una variable real con soporte en (0,1), y que el algoritmo convergio para las cinco familias en las dos especificaciones probadas. Sin embargo, en este conjunto concreto los criterios AIC y BIC favorecieron a la familia BE (y en segundo lugar a BEo) en ambos modelos.
