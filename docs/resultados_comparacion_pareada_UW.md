@@ -208,6 +208,42 @@ En los cuatro escenarios, todas las familias convergieron en las 30 replicas y U
 
 Los cuatro escenarios corresponden a un diseno factorial 2 x 2 de parametros generadores (`mu` en {0.7, 1.5} y `sigma` en {0.7, 1.5}), con 30 muestras de tamano 500 por escenario. Este diseno explora cuatro combinaciones, pero no representa todos los posibles valores de los parametros ni sustituye una evaluacion con datos reales.
 
+
+---
+
+# Ajuste global de los 32 contrastes de los cuatro escenarios
+
+Se reunieron los 32 valores p: cuatro competidoras por dos criterios de informacion (AIC y BIC) en cada uno de los cuatro escenarios. Se aplico el procedimiento Benjamini-Hochberg conjuntamente a este conjunto de 32 contrastes. Este procedimiento controla la tasa de falsos descubrimientos (FDR), no el error familiar (FWER).
+
+Los valores siguientes se obtuvieron directamente en R:
+
+| Escenario | Competidora | p ajustado global AIC | p ajustado global BIC |
+|---|---|---:|---:|
+| A (mu=0.7, sigma=1.5) | BE | 3.455394e-06 | 3.455394e-06 |
+| A (mu=0.7, sigma=1.5) | BEo | 3.455394e-06 | 3.455394e-06 |
+| A (mu=0.7, sigma=1.5) | LOGITNO | 2.957167e-05 | 2.957167e-05 |
+| A (mu=0.7, sigma=1.5) | GB1 | 3.406529e-05 | 2.310018e-06 |
+| B (mu=1.5, sigma=0.7) | BE | 2.816398e-06 | 2.816398e-06 |
+| B (mu=1.5, sigma=0.7) | BEo | 2.816398e-06 | 2.816398e-06 |
+| B (mu=1.5, sigma=0.7) | LOGITNO | 2.310018e-06 | 2.310018e-06 |
+| B (mu=1.5, sigma=0.7) | GB1 | 5.065849e-05 | 2.310018e-06 |
+| C (mu=0.7, sigma=0.7) | BE | 2.310018e-06 | 2.310018e-06 |
+| C (mu=0.7, sigma=0.7) | BEo | 2.310018e-06 | 2.310018e-06 |
+| C (mu=0.7, sigma=0.7) | LOGITNO | 2.310018e-06 | 2.310018e-06 |
+| C (mu=0.7, sigma=0.7) | GB1 | 2.035069e-05 | 2.310018e-06 |
+| D (mu=1.5, sigma=1.5) | BE | 8.446510e-06 | 8.446510e-06 |
+| D (mu=1.5, sigma=1.5) | BEo | 8.446510e-06 | 8.446510e-06 |
+| D (mu=1.5, sigma=1.5) | LOGITNO | 2.310018e-06 | 2.310018e-06 |
+| D (mu=1.5, sigma=1.5) | GB1 | 2.640372e-06 | 2.310018e-06 |
+
+El mayor valor p ajustado fue 5.065849e-05. Por tanto, los 32 contrastes rechazaron la hipotesis nula al nivel de significancia de 0.001. En todos los contrastes la alternativa fue que la diferencia competidora - UW es positiva.
+
+## Conclusion conjunta de los cuatro escenarios
+
+En las cuatro combinaciones de parametros estudiadas, las cinco familias convergieron en las 30 muestras de cada escenario. La familia UW obtuvo el menor AIC y BIC con mayor frecuencia que cada competidora, y las pruebas pareadas de Wilcoxon mantuvieron resultados significativos tras el ajuste BH global de los 32 contrastes.
+
+Esta evidencia respalda un mejor ajuste relativo de UW bajo los escenarios simulados considerados. No demuestra que UW sea la mejor distribucion para cualquier poblacion o conjunto de datos: el diseno abarca cuatro puntos de parametros, muestras de tamano 500 y 30 replicas por punto. Se recomienda completar el estudio con mas combinaciones de parametros, otros tamanos de muestra y aplicaciones a datos reales cuando existan observaciones adecuadas.
+
 ## Interpretacion y alcance
 
 Los resultados muestran que, cuando los datos se generan desde UW(mu = 0.7, sigma = 1.5), la familia UW obtiene con mayor frecuencia los menores AIC y BIC entre las cinco familias consideradas. La convergencia completa en las 30 muestras permite realizar una comparacion pareada sin excluir replicas.
