@@ -21,5 +21,8 @@ jobs:
       - name: Install R dependencies
         run: Rscript -e 'install.packages(c("gamlss", "gamlss.dist"), repos = "https://cloud.r-project.org")'
 
+      - name: Check simulation study script loads
+        run: Rscript -e 'source("simulation/estudio_simulacion_UW.R")'
+
       - name: Run Unit-Weibull tests
         run: Rscript tests/run_all_tests.R
