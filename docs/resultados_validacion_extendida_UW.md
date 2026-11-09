@@ -90,6 +90,57 @@ En esta especificacion, BE volvio a presentar los menores AIC y BIC, seguido por
 
 La inclusion de temperatura redujo el AIC y BIC de los modelos frente a sus versiones de intercepto. Esto describe un mejor ajuste dentro de cada familia al incorporar el predictor; por si solo no demuestra una relacion causal.
 
+
+### Inferencia de los coeficientes tras ajustar los modelos directamente
+
+Para verificar los errores estandar se volvieron a ajustar los dos modelos directamente en el entorno global de Posit Cloud, usando `datos_gasolina` como objeto de datos. En estas ejecuciones `summary()` ya no produjo la advertencia de que `vcov` habia fallado.
+
+**Modelo Unit-Weibull**
+
+| Parametro | Estimacion | Error estandar | Estadistico t | Valor p |
+|---|---:|---:|---:|---:|
+| Intercepto de mu | -7.832075 | 1.367552 | -5.727 | 3.38e-06 |
+| temp en mu | 0.015303 | 0.003117 | 4.910 | 3.26e-05 |
+| Intercepto de sigma | 1.44227 | 0.13200 | 10.93 | 8.51e-12 |
+
+La ecuacion estimada para el parametro mu, con enlace log, es:
+
+[
+log(mu_i)=-7.832075+0.015303,temp_i.
+]
+
+Por cada unidad adicional de temperatura, el parametro `mu` se multiplica por `exp(0.015303) ≈ 1.0154`, manteniendo la especificacion del modelo. Esto equivale a un aumento aproximado de 1.54 % en `mu` por unidad de temperatura; no es un aumento directo de 1.54 % en `yield`.
+
+**Modelo Beta**
+
+| Parametro | Estimacion | Error estandar | Estadistico t | Valor p |
+|---|---:|---:|---:|---:|
+| Intercepto de mu | -3.908155 | 0.503810 | -7.757 | 1.49e-08 |
+| temp en mu | 0.007308 | 0.001446 | 5.055 | 2.17e-05 |
+| Intercepto de sigma | -1.4486 | 0.1508 | -9.605 | 1.63e-10 |
+
+Con enlace logit para `mu`, el coeficiente de temperatura es positivo y significativo. Su exponencial es aproximadamente 1.0073, que representa un cambio multiplicativo en los momios del parametro de media, no en la respuesta `yield` misma.
+
+Los dos modelos muestran una asociacion positiva entre temperatura y el parametro de localizacion/media correspondiente. La interpretacion es asociativa, no causal. La muestra contiene solo 32 observaciones.
+
+Los valores p anteriores sustituyen los errores estandar y valores p de las ejecuciones dentro de la funcion auxiliar, en las que se habia mostrado la advertencia `vcov has failed, option qr is used instead`. Los AIC, BIC/SBC y devianzas permanecieron iguales porque las estimaciones del modelo no cambiaron.
+
+### Diagnostico de residuos
+
+Los resumenes de residuos cuantiles fueron:
+
+| Indicador | UW | Beta |
+|---|---:|---:|
+| Media | -0.0159859 | -0.0053822 |
+| Varianza | 0.9215667 | 1.029345 |
+| Asimetria | -0.6647822 | -0.1279713 |
+| Curtosis | 2.646307 | 2.192978 |
+| Correlacion de Filliben | 0.9768882 | 0.9936556 |
+
+La media y varianza residuales de ambos modelos son razonablemente cercanas a 0 y 1, respectivamente. La correlacion de Filliben es mayor para Beta, y su asimetria residual absoluta es menor en esta muestra. Estos indicadores descriptivos sugieren un comportamiento mas cercano a la normalidad para los residuos de Beta en este conjunto de datos.
+
+Los graficos contra valores ajustados y contra indice deben revisarse tambien para buscar patrones sistematicos, curvatura, cambios de dispersion o posibles observaciones influyentes. La correlacion de Filliben por si sola no constituye una prueba formal de normalidad ni garantiza que todos los supuestos del modelo se cumplan.
+
 ### Interpretacion de la aplicacion real
 
 La aplicacion a GasolineYield muestra que UW puede ajustarse correctamente a una variable real con soporte en (0,1), y que el algoritmo convergio para las cinco familias en las dos especificaciones probadas. Sin embargo, en este conjunto concreto los criterios AIC y BIC favorecieron a la familia BE (y en segundo lugar a BEo) en ambos modelos.
