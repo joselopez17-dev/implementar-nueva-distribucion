@@ -91,6 +91,43 @@ En esta especificacion, BE volvio a presentar los menores AIC y BIC, seguido por
 La inclusion de temperatura redujo el AIC y BIC de los modelos frente a sus versiones de intercepto. Esto describe un mejor ajuste dentro de cada familia al incorporar el predictor; por si solo no demuestra una relacion causal.
 
 
+
+### Sensibilidad leave-one-out de la pendiente de temperatura
+
+Se reajustaron ambos modelos 32 veces por familia, retirando una observacion distinta en cada ajuste. Los 64 modelos convergieron.
+
+Las cinco mayores variaciones porcentuales absolutas de la pendiente fueron:
+
+**Unit-Weibull**
+
+| Observacion retirada | Pendiente temp | Cambio porcentual |
+|---:|---:|---:|
+| 30 | 0.01761164 | +15.08 % |
+| 21 | 0.01369948 | -10.48 % |
+| 32 | 0.01679840 | +9.77 % |
+| 1 | 0.01622232 | +6.01 % |
+| 2 | 0.01594882 | +4.22 % |
+
+**Beta**
+
+| Observacion retirada | Pendiente temp | Cambio porcentual |
+|---:|---:|---:|
+| 32 | 0.00795997 | +8.92 % |
+| 21 | 0.00672894 | -7.93 % |
+| 4 | 0.00691636 | -5.36 % |
+| 1 | 0.00765374 | +4.73 % |
+| 2 | 0.00764155 | +4.56 % |
+
+La observacion 30 produce el mayor cambio en la pendiente de UW (+15.08 %), pero su cambio en Beta es de solo +2.79 % y no aparece entre las cinco mayores variaciones de Beta. Las observaciones 21 y 32 tambien afectan apreciablemente a ambos modelos.
+
+#### Interpretacion y cautelas
+
+Este ejercicio es un analisis de sensibilidad leave-one-out de un coeficiente concreto, no una medida completa de influencia estadistica. No evalua por si solo cambios en todos los parametros, valores ajustados, devianza, leverage ni distancia de Cook adaptada al modelo. Ademas, los coeficientes de temperatura estan en escalas de enlace diferentes: log para UW y logit para Beta. Por eso las variaciones porcentuales se interpretan dentro de cada modelo, no como comparacion directa del efecto de temperatura entre familias.
+
+Los resultados sugieren que la pendiente de UW es mas sensible a algunas observaciones individuales, especialmente la numero 30, que la pendiente de Beta en este conjunto de 32 casos. Esto no demuestra que UW este mal especificada ni que la observacion sea erronea. No se elimina ninguna observacion del analisis principal sin una justificacion externa o una investigacion adicional.
+
+Se recomienda revisar los registros 21, 30 y 32, y complementar este analisis con intervalos de confianza de las pendientes y una evaluacion de la influencia sobre el ajuste global.
+
 ### Inferencia de los coeficientes tras ajustar los modelos directamente
 
 Para verificar los errores estandar se volvieron a ajustar los dos modelos directamente en el entorno global de Posit Cloud, usando `datos_gasolina` como objeto de datos. En estas ejecuciones `summary()` ya no produjo la advertencia de que `vcov` habia fallado.
