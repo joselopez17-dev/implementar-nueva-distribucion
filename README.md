@@ -100,6 +100,25 @@ ajuste <- gamlss(
 summary(ajuste)
 ```
 
+## Pruebas
+
+Desde la carpeta raíz del repositorio, ejecutar:
+
+```r
+source("tests/run_all_tests.R")
+```
+
+El conjunto de pruebas incluye:
+- Soporte y validación de parámetros.
+- Densidad frente a la transformación de WEI2.
+- Integral numérica igual a uno.
+- Consistencia de CDF, cuantiles y colas.
+- Simulación dentro del intervalo unitario.
+- Estructura del objeto `gamlss.family`.
+- Comparación de scores analíticos con diferencias finitas.
+
+También se configuró GitHub Actions para ejecutar las pruebas con R en cada actualización de `main`. Los resultados deben revisarse en la pestaña **Actions** del repositorio.
+
 ## Consideraciones de validación
 
 - La familia UW debe recibir observaciones estrictamente dentro de `(0,1)`.
