@@ -5,11 +5,21 @@
 # Recicla x, mu y sigma a una longitud comun, como hacen las
 # funciones de distribucion de R.
 .uw_recycle_args <- function(x, mu, sigma) {
-  n <- max(length(x), length(mu), length(sigma))
-
-  if (n == 0L) {
-    stop("Los argumentos no pueden estar vacios.")
+  if (length(mu) == 0L || length(sigma) == 0L) {
+    stop("'mu' y 'sigma' no pueden estar vacios.")
   }
+
+  # Como en las funciones base de R, una respuesta vacia
+  # produce una salida vacia sin intentar reciclar parametros.
+  if (length(x) == 0L) {
+    return(list(
+      x = x,
+      mu = rep_len(mu, 0L),
+      sigma = rep_len(sigma, 0L)
+    ))
+  }
+
+  n <- max(length(x), length(mu), length(sigma))
 
   list(
     x = rep_len(x, n),
